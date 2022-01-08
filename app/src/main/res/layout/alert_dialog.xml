@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#03A9F4"
+        android:text="Enter the otp in the channel you want the messages to go to login from your device"
+        android:maxLines="3"
+        android:padding="5dp"/>
+
+    <TextView
+        android:text="OTP"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/otp"
+        android:textColor="@color/black"
+        android:textStyle="normal|bold"
+        android:textSize="18sp"
+        android:layout_below="@+id/text"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp" />
+
+
+    <Button
+        android:id="@+id/dialogButtonCopy"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingRight="5dp"
+        android:text="Copy Otp"
+        android:textColor="@color/black"
+        android:layout_below="@+id/otp"
+        android:textSize="18sp" />
+
+</RelativeLayout>
