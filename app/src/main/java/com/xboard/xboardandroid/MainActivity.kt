@@ -6,12 +6,12 @@ import android.content.ClipboardManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.xboard.xboardandroid.Utils.API.api
-import com.xboard.xboardandroid.Utils.CONSTANTS.Channel_ID
 import com.xboard.xboardandroid.Utils.CONSTANTS.channelEvent
 import org.javacord.api.DiscordApi
 import kotlin.random.Random
@@ -35,16 +35,36 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        onReady(api)
-
-        api.addMessageCreateListener {event->
-            if(event.messageContent.equals(otp)){
-                Channel_ID=event.channel.id.toString()
-                channelEvent=event
-                println("Login Done")
-                onLogin()
-            }
+        println(api.channels)
+        for(cha in api.channels){
+            Log.d("event",cha.toString())
         }
+//        onReady(api)
+        //930088852826234970
+
+        var channel=api.getTextChannelById("840446893216497726")
+        channel.ifPresent { textChannel->
+            textChannel.sendMessage("4298")
+            var chat=textChannel.getMessages(10).thenApply {chatSet->
+             for(singleChat in chatSet){
+                 Log.d("event",singleChat.toString())
+             }
+            }
+
+        }
+
+//        api.addMessageCreateListener {event->
+//            if(event.messageContent.equals(otp)){
+//                Channel_ID=event.channel.id.toString()
+//                channelEvent=event
+//                println("Login Done")
+//                println(channelEvent.toString())
+//                Log.d("event",channelEvent.toString())
+//                //org.javacord.core.event.message.MessageCreateEventImpl@41a2ce
+//            }
+//        }
+
+
 
     }
 
@@ -61,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             val clipData= ClipData.newPlainText("otp",otp)
             clipBoardManager?.setPrimaryClip(clipData)
             dialog.dismiss()
+            onLogin()
         }
         dialog.show()
     }

@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/nitis/Desktop/Discord/XboardAndroid/app/src/main/res/layout/activity_bot_setup.xml" value="0.25" />
         <entry key="..\:/Users/nitis/Desktop/Discord/XboardAndroid/app/src/main/res/layout/activity_main.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/nitis/Desktop/Discord/XboardAndroid/app/src/main/res/layout/alert_dialog.xml" value="0.264" />
+        <entry key="..\:/Users/nitis/Desktop/Discord/XboardAndroid/app/src/main/res/layout/fragment_add_bot_set_channel.xml" value="0.2359375" />
         <entry key="..\:/Users/nitis/Desktop/Discord/XboardAndroid/app/src/main/res/layout/fragment_channel_verification.xml" value="0.17300724637681159" />
       </map>
     </option>
