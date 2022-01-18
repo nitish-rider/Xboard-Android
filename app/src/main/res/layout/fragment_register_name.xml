@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_grey"
+    tools:context=".UI.Fragment.Register.Register_name">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:padding="5dp"
+        android:textColorHint="@color/bg_yellow"
+        app:boxStrokeColor="@color/bg_yellow"
+        app:boxStrokeWidthFocused="2dp"
+        app:endIconTint="@color/bg_yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        app:startIconDrawable="@drawable/name"
+        app:startIconTint="@color/bg_yellow">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:textColor="@color/bg_yellow" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="50dp"
+        android:text="Continue"
+        android:padding="20dp"
+        app:icon="@drawable/arrow"
+        app:iconGravity="textEnd"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="X B o a r d"
+        android:textSize="24sp"
+        android:padding="16dp"
+        android:textColor="@color/bg_yellow"
+        android:layout_marginBottom="16dp"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
