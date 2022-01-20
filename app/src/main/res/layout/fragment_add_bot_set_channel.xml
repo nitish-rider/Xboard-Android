@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Fragment.BotLogin.AddBotSetChannel"
+    tools:context=".ui.fragment.BotLogin.AddBotSetChannel"
     android:background="@color/bg_grey"
     android:padding="16dp">
 

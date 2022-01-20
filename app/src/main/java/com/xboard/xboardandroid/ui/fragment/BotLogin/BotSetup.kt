@@ -1,4 +1,4 @@
-package com.xboard.xboardandroid.UI.Fragment.BotLogin
+package com.xboard.xboardandroid.ui.fragment.BotLogin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

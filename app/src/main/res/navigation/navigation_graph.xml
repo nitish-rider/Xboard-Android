@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/register_name2"
-        android:name="com.xboard.xboardandroid.UI.Fragment.Register.Register_name"
+        android:name="com.xboard.xboardandroid.ui.fragment.register.RegisterName"
         android:label="Register"
         tools:layout="@layout/fragment_register_name" />
 </navigation>
