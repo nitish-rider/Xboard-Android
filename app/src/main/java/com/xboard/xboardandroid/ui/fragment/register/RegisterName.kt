@@ -1,14 +1,21 @@
 package com.xboard.xboardandroid.ui.fragment.register
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.xboard.xboardandroid.R
+import com.xboard.xboardandroid.Utils.API.api
 import com.xboard.xboardandroid.databinding.FragmentRegisterNameBinding
+import java.util.*
 
 
 class RegisterName : Fragment() {
@@ -17,6 +24,7 @@ class RegisterName : Fragment() {
     private val binding get() = _binding!!
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,6 +34,11 @@ class RegisterName : Fragment() {
         val sharedPreferences =
             requireActivity().getSharedPreferences("register", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
+        val serverById = api.getServerById("840446892638863382")
+        serverById.ifPresent { server->
+            Log.d("server",server.channelCategories.toString())
+        }
+
 
         binding.registerNameBt.setOnClickListener {
             val name = binding.registerNameEt.text.toString()
@@ -34,8 +47,10 @@ class RegisterName : Fragment() {
                 if (name.isNotEmpty() && otp.isNotEmpty()) {
                     binding.textInputLayout.isErrorEnabled = false
                     binding.textInputLayoutotp.isErrorEnabled = false
-                    editor.putString("registered_name", name)
+                    editor.putString("registered_name", name.lowercase(Locale.getDefault()))
+                    editor.putString("registered_otp",otp)
                     editor.apply()
+                    findNavController().navigate(R.id.action_register_name2_to_homeFragment)
                 } else {
                     if (name.isEmpty()) {
                         binding.textInputLayout.error = "Please enter a valid name"
