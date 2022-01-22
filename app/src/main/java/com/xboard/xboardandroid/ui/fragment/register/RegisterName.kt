@@ -1,5 +1,6 @@
 package com.xboard.xboardandroid.ui.fragment.register
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.xboard.xboardandroid.R
 import com.xboard.xboardandroid.Utils.API.api
+import com.xboard.xboardandroid.Utils.CONSTANTS.Server_ID
 import com.xboard.xboardandroid.databinding.FragmentRegisterNameBinding
 import java.util.*
 
@@ -24,6 +26,7 @@ class RegisterName : Fragment() {
     private val binding get() = _binding!!
 
 
+    @SuppressLint("RestrictedApi")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +37,7 @@ class RegisterName : Fragment() {
         val sharedPreferences =
             requireActivity().getSharedPreferences("register", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        val serverById = api.getServerById("840446892638863382")
+        val serverById = api.getServerById(Server_ID)
         serverById.ifPresent { server->
             Log.d("server",server.channelCategories.toString())
         }
