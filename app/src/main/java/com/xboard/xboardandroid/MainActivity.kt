@@ -78,16 +78,16 @@ class MainActivity : AppCompatActivity() {
 //        onReady(api)
         //930088852826234970
 
-//        var channel=api.getTextChannelById("840446893216497726")
-//        channel.ifPresent { textChannel->
-////            textChannel.sendMessage("4298")
-//            var chat=textChannel.getMessages(10).thenApply{chatSet->
-//             for(singleChat in chatSet){
-//                 Log.d("event",singleChat.toString())
-//             }
-//            }
-//
-//        }
+        var channel=api.getTextChannelById("840446893216497726")
+        channel.ifPresent { textChannel->
+            textChannel.sendMessage("4298")
+            var chat=textChannel.getMessages(10).thenApply{chatSet->
+             for(singleChat in chatSet){
+                 Log.d("event",singleChat.toString())
+             }
+            }
+
+        }
 
 //        api.addMessageCreateListener {event->
 //            if(event.messageContent.equals(otp)){
