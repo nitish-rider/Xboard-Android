@@ -3,16 +3,15 @@ package com.xboard.xboardandroid.ui.fragment.home
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import com.xboard.xboardandroid.Utils.API.api
-import com.xboard.xboardandroid.Utils.CONSTANTS.Server_ID
+import androidx.fragment.app.Fragment
+import com.xboard.xboardandroid.utils.API.api
+import com.xboard.xboardandroid.utils.CONSTANTS.Category_ID
+import com.xboard.xboardandroid.utils.CONSTANTS.Server_ID
 import com.xboard.xboardandroid.databinding.FragmentHomeBinding
 
 
@@ -23,7 +22,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     @SuppressLint("RestrictedApi")
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +37,7 @@ class HomeFragment : Fragment() {
             serverById.ifPresent { server->
                 val createTextChannelBuilder = server.createTextChannelBuilder()
                 createTextChannelBuilder.setName(name+otp)
-                val channelCategoryById = server.getChannelCategoryById("933694087138267187")
+                val channelCategoryById = server.getChannelCategoryById(Category_ID)
                 channelCategoryById.ifPresent { category->
                     createTextChannelBuilder.setCategory(category)
                     val channelData=createTextChannelBuilder.create()

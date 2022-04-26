@@ -2,20 +2,18 @@ package com.xboard.xboardandroid.ui.fragment.register
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.xboard.xboardandroid.R
-import com.xboard.xboardandroid.Utils.API.api
-import com.xboard.xboardandroid.Utils.CONSTANTS.Server_ID
+import com.xboard.xboardandroid.utils.API.api
+import com.xboard.xboardandroid.utils.CONSTANTS.Server_ID
 import com.xboard.xboardandroid.databinding.FragmentRegisterNameBinding
 import java.util.*
 
@@ -27,7 +25,6 @@ class RegisterName : Fragment() {
 
 
     @SuppressLint("RestrictedApi")
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

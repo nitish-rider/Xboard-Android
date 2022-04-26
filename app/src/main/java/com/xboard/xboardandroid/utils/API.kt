@@ -1,4 +1,4 @@
-package com.xboard.xboardandroid.Utils
+package com.xboard.xboardandroid.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi

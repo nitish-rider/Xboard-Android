@@ -1,30 +1,17 @@
 package com.xboard.xboardandroid
 
-import android.app.Dialog
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import android.widget.Button
-import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.xboard.xboardandroid.Utils.API.api
-import com.xboard.xboardandroid.Utils.CONSTANTS.Server_ID
-import com.xboard.xboardandroid.Utils.CONSTANTS.channelEvent
-import kotlinx.coroutines.*
-import org.javacord.api.DiscordApi
-import kotlin.random.Random
+import com.xboard.xboardandroid.utils.API.api
+import com.xboard.xboardandroid.utils.CONSTANTS.Server_ID
 
 
 @RequiresApi(Build.VERSION_CODES.N)
@@ -57,13 +44,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val navController: NavController =
-            Navigation.findNavController(this, R.id.nav_host_fragment)
+        Navigation.findNavController(this, R.id.nav_host_fragment)
         setupActionBarWithNavController(findNavController(R.id.nav_host_fragment))
 
         removeChannel()
@@ -77,17 +62,17 @@ class MainActivity : AppCompatActivity() {
 
 //        onReady(api)
         //930088852826234970
-
-        var channel=api.getTextChannelById("840446893216497726")
-        channel.ifPresent { textChannel->
-            textChannel.sendMessage("4298")
-            var chat=textChannel.getMessages(10).thenApply{chatSet->
-             for(singleChat in chatSet){
-                 Log.d("event",singleChat.toString())
-             }
-            }
-
-        }
+//
+//        var channel=api.getTextChannelById("840446893216497726")
+//        channel.ifPresent { textChannel->
+//            textChannel.sendMessage("4298")
+//            var chat=textChannel.getMessages(10).thenApply{chatSet->
+//             for(singleChat in chatSet){
+//                 Log.d("event",singleChat.toString())
+//             }
+//            }
+//
+//        }
 
 //        api.addMessageCreateListener {event->
 //            if(event.messageContent.equals(otp)){
@@ -102,11 +87,11 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp() || super.onSupportNavigateUp()
-    }
+//
+//    override fun onSupportNavigateUp(): Boolean {
+//        val navController = findNavController(R.id.nav_host_fragment)
+//        return navController.navigateUp() || super.onSupportNavigateUp()
+//    }
 
 //    fun onReady(api: DiscordApi) {
 //        otp = Random.nextInt(1000, 9999).toString()
