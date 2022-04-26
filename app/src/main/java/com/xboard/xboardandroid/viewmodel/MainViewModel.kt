@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xboard.xboardandroid.utils.API
 import kotlinx.coroutines.launch
-import org.javacord.api.entity.message.MessageSet
 
 class MainViewModel:ViewModel() {
     var myMessages : MutableLiveData<List<Pair<String,String>>> = MutableLiveData()
@@ -19,13 +18,10 @@ class MainViewModel:ViewModel() {
                 var msg : ArrayList<Pair<String,String>> = ArrayList()
                 messages.forEach {mess->
                     if(mess.content.isNotEmpty()){
-//                        Log.d("mess",mess.toString())
                         msg.add(Pair(mess.content,""))
                     }
                     else{
-//                       Log.d("mess", mess.attachments.toString())
                         val attachments = mess.attachments
-//                        Log.d("mess",attachments[0].url.toString())
                         msg.add(Pair("",attachments[0].url.toString()))
                     }
 

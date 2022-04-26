@@ -1,6 +1,7 @@
 package com.xboard.xboardandroid.ui.fragment.home
 
 import android.annotation.SuppressLint
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -34,6 +35,8 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val sharedPref: SharedPreferences =requireActivity().getSharedPreferences("register", Context.MODE_PRIVATE)
         val editor=sharedPref.edit()
+        val myClipBoard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipBoardText = myClipBoard.primaryClip?.getItemAt(0)
 
         binding.messageRv.layoutManager = LinearLayoutManager(requireActivity())
 
@@ -69,7 +72,28 @@ class HomeFragment : Fragment() {
             }
 
             mainViewModel.myMessages.observe(requireActivity()) {
-                binding.messageRv.adapter = MessageAdapter(it)
+                binding.messageRv.adapter = MessageAdapter(it,requireActivity())
+            }
+
+            binding.sendToCbBt.setOnClickListener {
+                val channel = api.getTextChannelById(myChannelId)
+                channel.ifPresent{textChannel->
+                    textChannel.sendMessage("#c ${clipBoardText?.text}")
+                }
+            }
+
+            binding.sendToTxBt.setOnClickListener {
+                val channel = api.getTextChannelById(myChannelId)
+                channel.ifPresent{textChannel->
+                    textChannel.sendMessage("#p ${clipBoardText?.text}")
+                }
+            }
+
+            binding.getSSBt.setOnClickListener {
+                val channel = api.getTextChannelById(myChannelId)
+                channel.ifPresent{textChannel->
+                    textChannel.sendMessage("s")
+                }
             }
         }
         return binding.root

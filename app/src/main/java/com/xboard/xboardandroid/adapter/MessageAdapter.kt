@@ -1,5 +1,10 @@
 package com.xboard.xboardandroid.adapter
 
+import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
@@ -7,14 +12,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ListAdapter
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.xboard.xboardandroid.R
 import java.net.URL
 import java.util.concurrent.Executors
 
-class MessageAdapter(private val messageList : List<Pair<String,String>>):RecyclerView.Adapter<MessageAdapter.MessageViewHolder>(){
+class MessageAdapter(private val messageList : List<Pair<String,String>>, context: FragmentActivity):RecyclerView.Adapter<MessageAdapter.MessageViewHolder>(){
+    private val myClipBoard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
@@ -36,6 +43,10 @@ class MessageAdapter(private val messageList : List<Pair<String,String>>):Recycl
                     holder.itemView.findViewById<ImageView>(R.id.image).setImageBitmap(bitmap)
                 }
             }
+        }
+        holder.itemView.findViewById<TextView>(R.id.text).setOnClickListener {
+            val myClip = ClipData.newPlainText("text",holder.itemView.findViewById<TextView>(R.id.text).text)
+            myClipBoard.setPrimaryClip(myClip)
         }
     }
 
