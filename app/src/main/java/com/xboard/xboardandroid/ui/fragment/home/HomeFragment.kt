@@ -37,11 +37,7 @@ class HomeFragment : Fragment() {
         val editor=sharedPref.edit()
         val myClipBoard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clipBoardText = myClipBoard.primaryClip?.getItemAt(0)
-
         binding.messageRv.layoutManager = LinearLayoutManager(requireActivity())
-
-
-
         if(sharedPref.getString("registered_name","")!=""){
             val name=sharedPref.getString("registered_name","")
             val otp=sharedPref.getString("registered_otp","")
@@ -72,7 +68,7 @@ class HomeFragment : Fragment() {
             }
 
             mainViewModel.myMessages.observe(requireActivity()) {
-                binding.messageRv.adapter = MessageAdapter(it,requireActivity())
+                binding.messageRv.adapter = MessageAdapter(it,requireActivity(),binding)
             }
 
             binding.sendToCbBt.setOnClickListener {

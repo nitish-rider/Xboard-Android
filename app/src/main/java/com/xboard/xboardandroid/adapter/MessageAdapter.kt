@@ -8,18 +8,25 @@ import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.xboard.xboardandroid.R
+import com.xboard.xboardandroid.databinding.FragmentHomeBinding
 import java.net.URL
 import java.util.concurrent.Executors
 
-class MessageAdapter(private val messageList : List<Pair<String,String>>, context: FragmentActivity):RecyclerView.Adapter<MessageAdapter.MessageViewHolder>(){
+class MessageAdapter(
+    private val messageList: List<Pair<String, String>>,
+    private val context: FragmentActivity,
+    private val binding: FragmentHomeBinding
+):RecyclerView.Adapter<MessageAdapter.MessageViewHolder>(){
     private val myClipBoard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
 
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -47,6 +54,22 @@ class MessageAdapter(private val messageList : List<Pair<String,String>>, contex
         holder.itemView.findViewById<TextView>(R.id.text).setOnClickListener {
             val myClip = ClipData.newPlainText("text",holder.itemView.findViewById<TextView>(R.id.text).text)
             myClipBoard.setPrimaryClip(myClip)
+        }
+        holder.itemView.findViewById<ImageView>(R.id.image).setOnClickListener {
+            val executorService = Executors.newSingleThreadExecutor()
+            val handler = Handler(Looper.getMainLooper())
+            executorService.execute{
+                val bitmap= BitmapFactory.decodeStream(URL(messageList[position].second).openStream())
+                handler.post {
+                    binding.imageFS.visibility = View.VISIBLE
+                    binding.imageFS.setImageBitmap(bitmap)
+                    Log.d("mess",bitmap.height.toString())
+                    Log.d("mess",bitmap.width.toString())
+                }
+            }
+        }
+        binding.imageFS.setOnClickListener{
+            binding.imageFS.visibility = View.GONE
         }
     }
 
