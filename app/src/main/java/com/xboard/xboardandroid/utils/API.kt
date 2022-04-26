@@ -11,4 +11,5 @@ object API {
         val api = DiscordApiBuilder().setToken(CONSTANTS.BOT_KEY).login().join()
         api
     }
+    var myChannelId : String = ""
 }

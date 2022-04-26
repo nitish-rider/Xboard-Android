@@ -9,17 +9,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.xboard.xboardandroid.adapter.MessageAdapter
 import com.xboard.xboardandroid.utils.API.api
 import com.xboard.xboardandroid.utils.CONSTANTS.Category_ID
 import com.xboard.xboardandroid.utils.CONSTANTS.Server_ID
 import com.xboard.xboardandroid.databinding.FragmentHomeBinding
+import com.xboard.xboardandroid.utils.API.myChannelId
+import com.xboard.xboardandroid.viewmodel.MainViewModel
 
 
 class HomeFragment : Fragment() {
 
-        private lateinit var channelName:String
+    private lateinit var channelName:String
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private val mainViewModel = MainViewModel()
 
     @SuppressLint("RestrictedApi")
     override fun onCreateView(
@@ -29,6 +34,11 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val sharedPref: SharedPreferences =requireActivity().getSharedPreferences("register", Context.MODE_PRIVATE)
         val editor=sharedPref.edit()
+
+        binding.messageRv.layoutManager = LinearLayoutManager(requireActivity())
+
+
+
         if(sharedPref.getString("registered_name","")!=""){
             val name=sharedPref.getString("registered_name","")
             val otp=sharedPref.getString("registered_otp","")
@@ -43,12 +53,23 @@ class HomeFragment : Fragment() {
                     val channelData=createTextChannelBuilder.create()
                     editor.putString("Channel_id",channelData.get().id.toString())
                     editor.apply()
+                    myChannelId = channelData.get().id.toString()
                     Log.d("channel",channelData.get().id.toString()+"added")
                     val channel = api.getTextChannelById(channelData.get().id.toString())
                     channel.ifPresent{textChannel->
                         textChannel.sendMessage(otp)
                     }
                 }
+            }
+            api.addMessageCreateListener {
+                val channelId = it.channel.id.toString()
+                if(channelId == myChannelId){
+                    mainViewModel.getMessages(myChannelId)
+                }
+            }
+
+            mainViewModel.myMessages.observe(requireActivity()) {
+                binding.messageRv.adapter = MessageAdapter(it)
             }
         }
         return binding.root

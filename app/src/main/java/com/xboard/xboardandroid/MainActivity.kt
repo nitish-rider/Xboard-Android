@@ -55,8 +55,6 @@ class MainActivity : AppCompatActivity() {
         removeChannel()
 
 
-
-
 //        println(api.channels)
 //        for(cha in api.channels){
 //            Log.d("event",cha.toString())

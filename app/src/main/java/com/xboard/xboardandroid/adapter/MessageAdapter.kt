@@ -31,6 +31,8 @@ class MessageAdapter(private val messageList : List<Pair<String,String>>):Recycl
             executorService.execute{
                 val bitmap= BitmapFactory.decodeStream(URL(messageList[position].second).openStream())
                 handler.post {
+                    holder.itemView.findViewById<TextView>(R.id.text).visibility = View.GONE
+                    holder.itemView.findViewById<ImageView>(R.id.image).visibility = View.VISIBLE
                     holder.itemView.findViewById<ImageView>(R.id.image).setImageBitmap(bitmap)
                 }
             }
