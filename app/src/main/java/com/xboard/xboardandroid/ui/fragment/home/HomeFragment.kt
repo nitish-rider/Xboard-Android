@@ -44,6 +44,10 @@ class HomeFragment : Fragment() {
                     editor.putString("Channel_id",channelData.get().id.toString())
                     editor.apply()
                     Log.d("channel",channelData.get().id.toString()+"added")
+                    val channel = api.getTextChannelById(channelData.get().id.toString())
+                    channel.ifPresent{textChannel->
+                        textChannel.sendMessage(otp)
+                    }
                 }
             }
         }
