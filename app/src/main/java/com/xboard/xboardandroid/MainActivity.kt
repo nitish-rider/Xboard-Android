@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.xboard.xboardandroid.utils.API.api
 import com.xboard.xboardandroid.utils.CONSTANTS.Server_ID
+import com.xboard.xboardandroid.viewmodel.MainViewModel
 
 
 @RequiresApi(Build.VERSION_CODES.N)
@@ -52,6 +53,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(findNavController(R.id.nav_host_fragment))
 
         removeChannel()
+
+
 
 
 //        println(api.channels)
