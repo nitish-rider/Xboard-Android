@@ -1,8 +1,8 @@
 package com.xboard.xboardandroid.ui.fragment.home
 
 import android.annotation.SuppressLint
-import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -10,14 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.xboard.xboardandroid.adapter.MessageAdapter
+import com.xboard.xboardandroid.HomeActivity
+import com.xboard.xboardandroid.databinding.FragmentHomeBinding
 import com.xboard.xboardandroid.utils.API.api
+import com.xboard.xboardandroid.utils.API.myChannelId
 import com.xboard.xboardandroid.utils.CONSTANTS.Category_ID
 import com.xboard.xboardandroid.utils.CONSTANTS.Server_ID
-import com.xboard.xboardandroid.databinding.FragmentHomeBinding
-import com.xboard.xboardandroid.utils.API.myChannelId
-import com.xboard.xboardandroid.viewmodel.MainViewModel
 
 
 class HomeFragment : Fragment() {
@@ -25,7 +23,6 @@ class HomeFragment : Fragment() {
     private lateinit var channelName:String
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val mainViewModel = MainViewModel()
 
     @SuppressLint("RestrictedApi")
     override fun onCreateView(
@@ -35,9 +32,7 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val sharedPref: SharedPreferences =requireActivity().getSharedPreferences("register", Context.MODE_PRIVATE)
         val editor=sharedPref.edit()
-        val myClipBoard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clipBoardText = myClipBoard.primaryClip?.getItemAt(0)
-        binding.messageRv.layoutManager = LinearLayoutManager(requireActivity())
+
         if(sharedPref.getString("registered_name","")!=""){
             val name=sharedPref.getString("registered_name","")
             val otp=sharedPref.getString("registered_otp","")
@@ -57,40 +52,42 @@ class HomeFragment : Fragment() {
                     val channel = api.getTextChannelById(channelData.get().id.toString())
                     channel.ifPresent{textChannel->
                         textChannel.sendMessage(otp)
+                        startActivity(Intent(requireContext(),HomeActivity::class.java))
                     }
                 }
             }
-            api.addMessageCreateListener {
-                val channelId = it.channel.id.toString()
-                if(channelId == myChannelId){
-                    mainViewModel.getMessages(myChannelId)
-                }
-            }
 
-            mainViewModel.myMessages.observe(requireActivity()) {
-                binding.messageRv.adapter = MessageAdapter(it,requireActivity(),binding)
-            }
-
-            binding.sendToCbBt.setOnClickListener {
-                val channel = api.getTextChannelById(myChannelId)
-                channel.ifPresent{textChannel->
-                    textChannel.sendMessage("#c ${clipBoardText?.text}")
-                }
-            }
-
-            binding.sendToTxBt.setOnClickListener {
-                val channel = api.getTextChannelById(myChannelId)
-                channel.ifPresent{textChannel->
-                    textChannel.sendMessage("#p ${clipBoardText?.text}")
-                }
-            }
-
-            binding.getSSBt.setOnClickListener {
-                val channel = api.getTextChannelById(myChannelId)
-                channel.ifPresent{textChannel->
-                    textChannel.sendMessage("s")
-                }
-            }
+//            api.addMessageCreateListener {
+//                val channelId = it.channel.id.toString()
+//                if(channelId == myChannelId){
+//                    mainViewModel.getMessages(myChannelId)
+//                }
+//            }
+//
+//            mainViewModel.myMessages.observe(requireActivity()) {
+//                binding.messageRv.adapter = MessageAdapter(it,requireActivity(),binding)
+//            }
+//
+//            binding.sendToCbBt.setOnClickListener {
+//                val channel = api.getTextChannelById(myChannelId)
+//                channel.ifPresent{textChannel->
+//                    textChannel.sendMessage("#c ${clipBoardText?.text}")
+//                }
+//            }
+//
+//            binding.sendToTxBt.setOnClickListener {
+//                val channel = api.getTextChannelById(myChannelId)
+//                channel.ifPresent{textChannel->
+//                    textChannel.sendMessage("#p ${clipBoardText?.text}")
+//                }
+//            }
+//
+//            binding.getSSBt.setOnClickListener {
+//                val channel = api.getTextChannelById(myChannelId)
+//                channel.ifPresent{textChannel->
+//                    textChannel.sendMessage("s")
+//                }
+//            }
         }
         return binding.root
     }

@@ -17,7 +17,9 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.xboard.xboardandroid.R
+import com.xboard.xboardandroid.databinding.ActivityHomeBinding
 import com.xboard.xboardandroid.databinding.FragmentHomeBinding
 import java.net.URL
 import java.util.concurrent.Executors
@@ -25,7 +27,7 @@ import java.util.concurrent.Executors
 class MessageAdapter(
     private val messageList: List<Pair<String, String>>,
     private val context: FragmentActivity,
-    private val binding: FragmentHomeBinding
+    private val binding: ActivityHomeBinding
 ):RecyclerView.Adapter<MessageAdapter.MessageViewHolder>(){
     private val myClipBoard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
 
