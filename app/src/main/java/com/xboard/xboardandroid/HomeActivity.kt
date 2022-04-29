@@ -1,7 +1,6 @@
 package com.xboard.xboardandroid
 
 import android.content.ClipboardManager
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,8 +19,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val myClipBoard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clipBoardText = myClipBoard.primaryClip?.getItemAt(0)
+
 
         binding.messageRv.layoutManager = LinearLayoutManager(this)
 
@@ -39,14 +37,18 @@ class HomeActivity : AppCompatActivity() {
         binding.sendToCbBt.setOnClickListener {
             val channel = api.getTextChannelById(myChannelId)
             channel.ifPresent{textChannel->
-                textChannel.sendMessage("#c ${clipBoardText?.text}")
+                val myClipBoard = this.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val myClip = myClipBoard.primaryClip
+                textChannel.sendMessage("#c ${myClip?.getItemAt(0)!!.text}")
             }
         }
 
         binding.sendToTxBt.setOnClickListener {
             val channel = api.getTextChannelById(myChannelId)
             channel.ifPresent{textChannel->
-                textChannel.sendMessage("#p ${clipBoardText?.text}")
+                val myClipBoard = this.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val myClip = myClipBoard.primaryClip
+                textChannel.sendMessage("#p ${myClip?.getItemAt(0)!!.text}")
             }
         }
 
