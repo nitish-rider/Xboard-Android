@@ -38,10 +38,10 @@ class RegisterName : Fragment() {
         val sharedPreferences =
             requireActivity().getSharedPreferences("register", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        val serverById = api.getServerById(Server_ID)
-        serverById.ifPresent { server->
-            Log.d("server",server.channelCategories.toString())
-        }
+//        val serverById = api.getServerById(Server_ID)
+//        serverById.ifPresent { server->
+//            Log.d("server",server.channelCategories.toString())
+//        }
 
 
         binding.registerNameBt.setOnClickListener {

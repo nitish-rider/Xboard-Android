@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -14,7 +15,6 @@ import com.xboard.xboardandroid.utils.API.api
 import com.xboard.xboardandroid.utils.CONSTANTS.Server_ID
 
 
-@RequiresApi(Build.VERSION_CODES.N)
 class MainActivity : AppCompatActivity() {
     //    var otp: String = ""
 //    var i=0
@@ -29,29 +29,32 @@ class MainActivity : AppCompatActivity() {
 //    }
 
 
-    private fun removeChannel() {
-        Log.d("channel", "inRemove")
-        val sharedPref: SharedPreferences =
-            this.getSharedPreferences("register", Context.MODE_PRIVATE)
-        val serverById = api.getServerById(Server_ID)
-        serverById.ifPresent { server ->
-            val id = sharedPref.getString("Channel_id","")
-            val channelById = server.getChannelById(id)
-            channelById.ifPresent { channel ->
-                channel.delete()
-            }
-        }
-    }
+//    private fun removeChannel() {
+//        Log.d("channel", "inRemove")
+//        val sharedPref: SharedPreferences =
+//            this.getSharedPreferences("register", Context.MODE_PRIVATE)
+//        val serverById = api.getServerById(Server_ID)
+//        serverById.ifPresent { server ->
+//            val id = sharedPref.getString("Channel_id","")
+//            val channelById = server.getChannelById(id)
+//            channelById.ifPresent { channel ->
+//                channel.delete()
+//            }
+//        }
+//    }
 
+    override fun onBackPressed() {
+        finish()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         Navigation.findNavController(this, R.id.nav_host_fragment)
-        setupActionBarWithNavController(findNavController(R.id.nav_host_fragment))
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        removeChannel()
+//        removeChannel()
 
 
 //        println(api.channels)

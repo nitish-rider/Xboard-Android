@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xboard.xboardandroid.adapter.MessageAdapter
 import com.xboard.xboardandroid.databinding.ActivityHomeBinding
@@ -14,7 +15,6 @@ import com.xboard.xboardandroid.utils.API.myChannelId
 import com.xboard.xboardandroid.viewmodel.MainViewModel
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.system.exitProcess
 
 class HomeActivity : AppCompatActivity() {
 
@@ -28,7 +28,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
 
         binding.messageRv.layoutManager = LinearLayoutManager(this)

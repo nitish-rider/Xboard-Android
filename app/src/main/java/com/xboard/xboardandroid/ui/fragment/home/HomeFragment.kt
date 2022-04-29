@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.xboard.xboardandroid.HomeActivity
 import com.xboard.xboardandroid.databinding.FragmentHomeBinding
 import com.xboard.xboardandroid.utils.API.api
@@ -25,6 +26,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View{
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+
 
         val channel = api.getTextChannelById(myChannelId)
         channel.ifPresent{
