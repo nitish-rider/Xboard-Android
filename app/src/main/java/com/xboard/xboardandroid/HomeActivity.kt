@@ -14,12 +14,10 @@ import com.xboard.xboardandroid.utils.API.myChannelId
 import com.xboard.xboardandroid.viewmodel.MainViewModel
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.system.exitProcess
 
 class HomeActivity : AppCompatActivity() {
 
-    override fun onBackPressed() {
-        super.onDestroy()
-    }
 
     private lateinit var binding:ActivityHomeBinding
     private val mainViewModel = MainViewModel()

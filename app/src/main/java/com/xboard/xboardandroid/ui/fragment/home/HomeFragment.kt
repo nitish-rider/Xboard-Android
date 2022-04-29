@@ -34,6 +34,7 @@ class HomeFragment : Fragment() {
                     message.delete()
                     Toast.makeText(requireContext(),"Verification Done",Toast.LENGTH_SHORT).show()
                     startActivity(Intent(requireContext(),HomeActivity::class.java))
+                    requireActivity().finish()
                 }
                 else{
                     binding.animationViewError.playAnimation()
@@ -45,9 +46,9 @@ class HomeFragment : Fragment() {
 //                if(channelId == myChannelId){
 //                    if(event.messageContent.equals("Touch the Camera emoji in this message to take a ss",true)){
 //                        event.deleteMessage()
-//
-//
 //                    }
+//                }
+//            }
 //
 //                }
 //            }
