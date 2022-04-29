@@ -1,9 +1,9 @@
 package com.xboard.xboardandroid.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.BitmapFactory
 import android.os.Handler
@@ -14,19 +14,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.xboard.xboardandroid.R
 import com.xboard.xboardandroid.databinding.ActivityHomeBinding
-import com.xboard.xboardandroid.databinding.FragmentHomeBinding
 import java.net.URL
 import java.util.concurrent.Executors
 
 class MessageAdapter(
     private val messageList: List<Pair<String, String>>,
-    private val context: FragmentActivity,
+    private val context: Activity,
     private val binding: ActivityHomeBinding
 ):RecyclerView.Adapter<MessageAdapter.MessageViewHolder>(){
     private val myClipBoard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
@@ -37,6 +34,7 @@ class MessageAdapter(
         return MessageViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.message_rv_item,parent,false))
     }
 
+    @SuppressLint("CutPasteId")
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         if(messageList[position].first != ""){
             holder.itemView.findViewById<TextView>(R.id.text).text = messageList[position].first
@@ -54,8 +52,9 @@ class MessageAdapter(
             }
         }
         holder.itemView.findViewById<TextView>(R.id.text).setOnClickListener {
-            val myClip = ClipData.newPlainText("text",holder.itemView.findViewById<TextView>(R.id.text).text)
+            val myClip = ClipData.newPlainText("text",messageList[position].first)
             myClipBoard.setPrimaryClip(myClip)
+            Toast.makeText(context,"Text Copied",Toast.LENGTH_SHORT).show()
         }
         holder.itemView.findViewById<ImageView>(R.id.image).setOnClickListener {
             val executorService = Executors.newSingleThreadExecutor()
@@ -65,14 +64,12 @@ class MessageAdapter(
                 handler.post {
                     binding.imageFS.visibility = View.VISIBLE
                     binding.imageFS.setImageBitmap(bitmap)
-                    Log.d("mess",bitmap.height.toString())
-                    Log.d("mess",bitmap.width.toString())
                 }
             }
         }
-        binding.imageFS.setOnClickListener{
-            binding.imageFS.visibility = View.GONE
-        }
+//        binding.imageFS.setOnClickListener{
+//            binding.imageFS.visibility = View.GONE
+//        }
     }
 
     override fun getItemCount(): Int {
