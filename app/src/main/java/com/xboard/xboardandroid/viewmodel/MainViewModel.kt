@@ -14,8 +14,8 @@ class MainViewModel:ViewModel() {
         viewModelScope.launch {
             val channel = API.api.getTextChannelById(channelId)
             channel.ifPresent{
-                val messages = it.getMessages(20).get();
-                var msg : ArrayList<Pair<String,String>> = ArrayList()
+                val messages = it.getMessages(20).get()
+                val msg : ArrayList<Pair<String,String>> = ArrayList()
                 messages.forEach {mess->
                     if(mess.content.isNotEmpty()){
                         msg.add(Pair(mess.content,""))

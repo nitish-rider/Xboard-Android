@@ -4,14 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.xboard.xboardandroid.R
-import com.xboard.xboardandroid.databinding.FragmentRegisterNameBinding
 import com.xboard.xboardandroid.databinding.FragmentSplashBinding
 import com.xboard.xboardandroid.utils.API
 import com.xboard.xboardandroid.utils.CONSTANTS
