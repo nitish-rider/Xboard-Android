@@ -4,6 +4,7 @@ import android.content.ClipboardManager
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xboard.xboardandroid.adapter.MessageAdapter
@@ -51,6 +52,7 @@ class HomeActivity : AppCompatActivity() {
                 val myClipBoard = this.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                 val myClip = myClipBoard.primaryClip
                 textChannel.sendMessage("#c ${myClip?.getItemAt(0)!!.text}")
+                Toast.makeText(this,"Text Send to Desktop's Clipboard",Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -60,6 +62,7 @@ class HomeActivity : AppCompatActivity() {
                 val myClipBoard = this.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                 val myClip = myClipBoard.primaryClip
                 textChannel.sendMessage("#p ${myClip?.getItemAt(0)!!.text}")
+                Toast.makeText(this,"Text Send to Desktop's Cursor",Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -67,6 +70,7 @@ class HomeActivity : AppCompatActivity() {
             val channel = api.getTextChannelById(myChannelId)
             channel.ifPresent{textChannel->
                 textChannel.sendMessage("s")
+                Toast.makeText(this,"Requested Desktop's ScreenShot",Toast.LENGTH_SHORT).show()
             }
         }
     }
