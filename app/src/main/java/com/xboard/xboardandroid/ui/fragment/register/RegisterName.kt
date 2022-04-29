@@ -15,6 +15,8 @@ import com.xboard.xboardandroid.R
 import com.xboard.xboardandroid.utils.API.api
 import com.xboard.xboardandroid.utils.CONSTANTS.Server_ID
 import com.xboard.xboardandroid.databinding.FragmentRegisterNameBinding
+import com.xboard.xboardandroid.utils.API
+import com.xboard.xboardandroid.utils.CONSTANTS
 import java.util.*
 
 
@@ -22,6 +24,8 @@ class RegisterName : Fragment() {
 
     private var _binding: FragmentRegisterNameBinding? = null
     private val binding get() = _binding!!
+    private lateinit var channelName:String
+
 
 
     @SuppressLint("RestrictedApi")
@@ -50,6 +54,31 @@ class RegisterName : Fragment() {
                     editor.putString("registered_name", name.lowercase(Locale.getDefault()))
                     editor.putString("registered_otp",otp)
                     editor.apply()
+                    if(sharedPreferences.getString("registered_name","")!="") {
+                        val name = sharedPreferences.getString("registered_name", "")
+                        val otp = sharedPreferences.getString("registered_otp", "")
+                        channelName = name + otp
+                        val serverById = api.getServerById(Server_ID)
+                        serverById.ifPresent { server ->
+                            val createTextChannelBuilder = server.createTextChannelBuilder()
+                            createTextChannelBuilder.setName(name + otp)
+                            val channelCategoryById =
+                                server.getChannelCategoryById(CONSTANTS.Category_ID)
+                            channelCategoryById.ifPresent { category ->
+                                createTextChannelBuilder.setCategory(category)
+                                val channelData = createTextChannelBuilder.create()
+                                editor.putString("Channel_id", channelData.get().id.toString())
+                                editor.apply()
+                                API.myChannelId = channelData.get().id.toString()
+                                Log.d("channel", channelData.get().id.toString() + "added")
+                                val channel =
+                                    api.getTextChannelById(channelData.get().id.toString())
+                                channel.ifPresent { textChannel ->
+                                    textChannel.sendMessage(otp)
+                                }
+                            }
+                        }
+                    }
                     findNavController().navigate(R.id.action_register_name2_to_homeFragment)
                 } else {
                     if (name.isEmpty()) {

@@ -16,6 +16,10 @@ import kotlin.math.min
 
 class HomeActivity : AppCompatActivity() {
 
+    override fun onBackPressed() {
+        super.onDestroy()
+    }
+
     private lateinit var binding:ActivityHomeBinding
     private val mainViewModel = MainViewModel()
     private lateinit var mScaleGestureDetector: ScaleGestureDetector
