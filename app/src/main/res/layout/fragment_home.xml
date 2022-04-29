@@ -10,9 +10,11 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:lottie_url="https://assets9.lottiefiles.com/packages/lf20_hXHdlx.json"
+        android:layout_height="match_parent"
+        app:lottie_url="https://assets6.lottiefiles.com/packages/lf20_hXHdlx.json"
         app:lottie_autoPlay="true"
+        app:lottie_speed="0.5"
+        android:background="@color/white"
         app:lottie_loop="true"/>
 
 </LinearLayout>

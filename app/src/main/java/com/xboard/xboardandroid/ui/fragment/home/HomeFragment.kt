@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.xboard.xboardandroid.HomeActivity
 import com.xboard.xboardandroid.databinding.FragmentHomeBinding
@@ -52,17 +53,21 @@ class HomeFragment : Fragment() {
                     val channel = api.getTextChannelById(channelData.get().id.toString())
                     channel.ifPresent{textChannel->
                         textChannel.sendMessage(otp)
-                        startActivity(Intent(requireContext(),HomeActivity::class.java))
                     }
                 }
             }
 
-//            api.addMessageCreateListener {
-//                val channelId = it.channel.id.toString()
-//                if(channelId == myChannelId){
-//                    mainViewModel.getMessages(myChannelId)
-//                }
-//            }
+            api.addMessageCreateListener {event->
+                val channelId = event.channel.id.toString()
+                if(channelId == myChannelId){
+                    if(event.messageContent.equals("Touch the Camera emoji in this message to take a ss",true)){
+                        event.deleteMessage()
+                        startActivity(Intent(requireContext(),HomeActivity::class.java))
+                        Toast.makeText(requireContext(),"Verification Done",Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(requireContext(),HomeActivity::class.java))
+                    }
+                }
+            }
 //
 //            mainViewModel.myMessages.observe(requireActivity()) {
 //                binding.messageRv.adapter = MessageAdapter(it,requireActivity(),binding)
