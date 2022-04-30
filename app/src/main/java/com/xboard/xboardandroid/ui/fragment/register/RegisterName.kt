@@ -2,6 +2,7 @@ package com.xboard.xboardandroid.ui.fragment.register
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,13 +11,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.xboard.xboardandroid.HomeActivity
 import com.xboard.xboardandroid.R
 import com.xboard.xboardandroid.utils.API.api
 import com.xboard.xboardandroid.utils.CONSTANTS.Server_ID
 import com.xboard.xboardandroid.databinding.FragmentRegisterNameBinding
 import com.xboard.xboardandroid.utils.API
+import com.xboard.xboardandroid.utils.API.verified
 import com.xboard.xboardandroid.utils.CONSTANTS
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -49,6 +55,8 @@ class RegisterName : Fragment() {
             val otp = binding.registerOtp.text.toString()
             if (binding.textInputLayoutotp.isVisible) {
                 if (name.isNotEmpty() && otp.isNotEmpty()) {
+                    binding.registerNameBt.visibility = View.GONE
+                    binding.animationLoading.visibility = View.VISIBLE
                     binding.textInputLayout.isErrorEnabled = false
                     binding.textInputLayoutotp.isErrorEnabled = false
                     editor.putString("registered_name", name.lowercase(Locale.getDefault()))
@@ -75,11 +83,35 @@ class RegisterName : Fragment() {
                                     api.getTextChannelById(channelData.get().id.toString())
                                 channel.ifPresent { textChannel ->
                                     textChannel.sendMessage(otp)
+
+                                    val chann = api.getTextChannelById(API.myChannelId)
+                                    chann.ifPresent{
+                                        val messages = it.getMessages(2).get()
+                                        messages.forEach { message ->
+                                            if(message.content.contains("Connected",true)){
+                                                Toast.makeText(requireContext(),"Verification Done",Toast.LENGTH_SHORT).show()
+                                                verified = true
+                                            }else{
+                                                message.delete()
+                                            }
+                                        }
+                                        lifecycleScope.launch {
+                                            delay(2000)
+                                            if(verified){
+                                                startActivity(Intent(requireContext(), HomeActivity::class.java))
+                                                requireActivity().finish()
+                                            }else{
+                                                findNavController().navigate(R.id.action_register_name2_to_homeFragment)
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
-                    findNavController().navigate(R.id.action_register_name2_to_homeFragment)
+
+
+
                 } else {
                     if (name.isEmpty()) {
                         binding.textInputLayout.error = "Please enter a valid name"

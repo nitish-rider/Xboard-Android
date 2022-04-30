@@ -12,4 +12,5 @@ object API {
         api
     }
     var myChannelId : String = ""
+    var verified : Boolean = false
 }

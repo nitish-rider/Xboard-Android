@@ -12,6 +12,7 @@ import com.xboard.xboardandroid.adapter.MessageAdapter
 import com.xboard.xboardandroid.databinding.ActivityHomeBinding
 import com.xboard.xboardandroid.utils.API.api
 import com.xboard.xboardandroid.utils.API.myChannelId
+import com.xboard.xboardandroid.utils.API.verified
 import com.xboard.xboardandroid.viewmodel.MainViewModel
 import kotlin.math.max
 import kotlin.math.min
@@ -31,46 +32,48 @@ class HomeActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
 
-        binding.messageRv.layoutManager = LinearLayoutManager(this)
 
-        api.addMessageCreateListener {
-            val channelId = it.channel.id.toString()
-            if(channelId == myChannelId){
-                mainViewModel.getMessages(myChannelId)
+            binding.messageRv.layoutManager = LinearLayoutManager(this)
+            mainViewModel.getMessages(myChannelId)
+
+            api.addMessageCreateListener {
+                val channelId = it.channel.id.toString()
+                if(channelId == myChannelId){
+                    mainViewModel.getMessages(myChannelId)
+                }
             }
-        }
 
-        mainViewModel.myMessages.observe(this) {
-            binding.messageRv.adapter = MessageAdapter(it,this,binding)
-        }
-
-        binding.sendToCbBt.setOnClickListener {
-            val channel = api.getTextChannelById(myChannelId)
-            channel.ifPresent{textChannel->
-                val myClipBoard = this.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                val myClip = myClipBoard.primaryClip
-                textChannel.sendMessage("#c ${myClip?.getItemAt(0)!!.text}")
-                Toast.makeText(this,"Text Send to Desktop's Clipboard",Toast.LENGTH_SHORT).show()
+            mainViewModel.myMessages.observe(this) {
+                binding.messageRv.adapter = MessageAdapter(it,this,binding)
             }
-        }
 
-        binding.sendToTxBt.setOnClickListener {
-            val channel = api.getTextChannelById(myChannelId)
-            channel.ifPresent{textChannel->
-                val myClipBoard = this.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                val myClip = myClipBoard.primaryClip
-                textChannel.sendMessage("#p ${myClip?.getItemAt(0)!!.text}")
-                Toast.makeText(this,"Text Send to Desktop's Cursor",Toast.LENGTH_SHORT).show()
+            binding.sendToCbBt.setOnClickListener {
+                val channel = api.getTextChannelById(myChannelId)
+                channel.ifPresent{textChannel->
+                    val myClipBoard = this.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                    val myClip = myClipBoard.primaryClip
+                    textChannel.sendMessage("#Android->Windows->c${myClip?.getItemAt(0)!!.text}")
+                    Toast.makeText(this,"Text Send to Desktop's Clipboard",Toast.LENGTH_SHORT).show()
+                }
             }
-        }
 
-        binding.getSSBt.setOnClickListener {
-            val channel = api.getTextChannelById(myChannelId)
-            channel.ifPresent{textChannel->
-                textChannel.sendMessage("s")
-                Toast.makeText(this,"Requested Desktop's ScreenShot",Toast.LENGTH_SHORT).show()
+            binding.sendToTxBt.setOnClickListener {
+                val channel = api.getTextChannelById(myChannelId)
+                channel.ifPresent{textChannel->
+                    val myClipBoard = this.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                    val myClip = myClipBoard.primaryClip
+                    textChannel.sendMessage("#Android->Windows->p ${myClip?.getItemAt(0)!!.text}")
+                    Toast.makeText(this,"Text Send to Desktop's Cursor",Toast.LENGTH_SHORT).show()
+                }
             }
-        }
+
+            binding.getSSBt.setOnClickListener {
+                val channel = api.getTextChannelById(myChannelId)
+                channel.ifPresent{textChannel->
+                    textChannel.sendMessage("#Android->Windows->s")
+                    Toast.makeText(this,"Requested Desktop's ScreenShot",Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     override fun onTouchEvent(motionEvent: MotionEvent): Boolean {

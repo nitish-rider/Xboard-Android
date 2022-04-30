@@ -18,7 +18,13 @@ class MainViewModel:ViewModel() {
                 val msg : ArrayList<Pair<String,String>> = ArrayList()
                 messages.forEach {mess->
                     if(mess.content.isNotEmpty()){
-                        msg.add(Pair(mess.content,""))
+                        if(!mess.content.startsWith("#Android",true)){
+                            msg.add(Pair(mess.content,""))
+                        }
+                        else if(mess.content.startsWith("#Android",true)){
+                            val text = mess.content.substring(20)
+                            msg.add(Pair(text,""))
+                        }
                     }
                     else{
                         val attachments = mess.attachments
