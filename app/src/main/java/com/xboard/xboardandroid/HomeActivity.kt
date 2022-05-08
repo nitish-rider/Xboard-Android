@@ -52,7 +52,7 @@ class HomeActivity : AppCompatActivity() {
                 channel.ifPresent{textChannel->
                     val myClipBoard = this.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                     val myClip = myClipBoard.primaryClip
-                    textChannel.sendMessage("#Android->Windows->c${myClip?.getItemAt(0)!!.text}")
+                    textChannel.sendMessage("#Android->Windows->c ${myClip?.getItemAt(0)!!.text}")
                     Toast.makeText(this,"Text Send to Desktop's Clipboard",Toast.LENGTH_SHORT).show()
                 }
             }

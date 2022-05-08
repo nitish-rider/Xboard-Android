@@ -18,13 +18,20 @@ class MainViewModel:ViewModel() {
                 val msg : ArrayList<Pair<String,String>> = ArrayList()
                 messages.forEach {mess->
                     if(mess.content.isNotEmpty()){
-                        if(!mess.content.startsWith("#Android",true)){
+                        if(mess.content.equals("Connected")){
                             msg.add(Pair(mess.content,""))
                         }
-                        else if(mess.content.startsWith("#Android",true)){
-                            val text = mess.content.substring(20)
+                        else if(mess.content.startsWith("#Windows",true)){
+                            var text = mess.content.substring(20).trim()
+                            text = "Desktop->Android: $text"
                             msg.add(Pair(text,""))
                         }
+                        else if(mess.content.startsWith("#Android",true)){
+                            var text = mess.content.substring(20).trim()
+                            text = "Android->Desktop: $text"
+                            msg.add(Pair(text,""))
+                        }
+
                     }
                     else{
                         val attachments = mess.attachments

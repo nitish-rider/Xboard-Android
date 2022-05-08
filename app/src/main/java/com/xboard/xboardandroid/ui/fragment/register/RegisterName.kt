@@ -15,12 +15,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.xboard.xboardandroid.HomeActivity
 import com.xboard.xboardandroid.R
-import com.xboard.xboardandroid.utils.API.api
-import com.xboard.xboardandroid.utils.CONSTANTS.Server_ID
 import com.xboard.xboardandroid.databinding.FragmentRegisterNameBinding
 import com.xboard.xboardandroid.utils.API
+import com.xboard.xboardandroid.utils.API.api
+import com.xboard.xboardandroid.utils.API.myChannelId
 import com.xboard.xboardandroid.utils.API.verified
 import com.xboard.xboardandroid.utils.CONSTANTS
+import com.xboard.xboardandroid.utils.CONSTANTS.Server_ID
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -30,8 +31,7 @@ class RegisterName : Fragment() {
 
     private var _binding: FragmentRegisterNameBinding? = null
     private val binding get() = _binding!!
-    private lateinit var channelName:String
-
+    private lateinit var channelName: String
 
 
     @SuppressLint("RestrictedApi")
@@ -40,14 +40,10 @@ class RegisterName : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRegisterNameBinding.inflate(inflater, container, false)
-
         val sharedPreferences =
             requireActivity().getSharedPreferences("register", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-//        val serverById = api.getServerById(Server_ID)
-//        serverById.ifPresent { server->
-//            Log.d("server",server.channelCategories.toString())
-//        }
+
 
 
         binding.registerNameBt.setOnClickListener {
@@ -55,37 +51,38 @@ class RegisterName : Fragment() {
             val otp = binding.registerOtp.text.toString()
             if (binding.textInputLayoutotp.isVisible) {
                 if (name.isNotEmpty() && otp.isNotEmpty()) {
+
                     binding.registerNameBt.visibility = View.GONE
                     binding.animationLoading.visibility = View.VISIBLE
                     binding.textInputLayout.isErrorEnabled = false
                     binding.textInputLayoutotp.isErrorEnabled = false
-                    editor.putString("registered_name", name.lowercase(Locale.getDefault()))
-                    editor.putString("registered_otp",otp)
-                    editor.apply()
-                    if(sharedPreferences.getString("registered_name","")!="") {
-                        val name = sharedPreferences.getString("registered_name", "")
-                        val otp = sharedPreferences.getString("registered_otp", "")
-                        channelName = name + otp
-                        val serverById = api.getServerById(Server_ID)
-                        serverById.ifPresent { server ->
-                            val createTextChannelBuilder = server.createTextChannelBuilder()
-                            createTextChannelBuilder.setName(name + otp)
-                            val channelCategoryById =
-                                server.getChannelCategoryById(CONSTANTS.Category_ID)
-                            channelCategoryById.ifPresent { category ->
-                                createTextChannelBuilder.setCategory(category)
-                                val channelData = createTextChannelBuilder.create()
-                                editor.putString("Channel_id", channelData.get().id.toString())
-                                editor.apply()
-                                API.myChannelId = channelData.get().id.toString()
-                                Log.d("channel", channelData.get().id.toString() + "added")
-                                val channel =
-                                    api.getTextChannelById(channelData.get().id.toString())
-                                channel.ifPresent { textChannel ->
-                                    textChannel.sendMessage(otp)
 
+                    editor.putString("registered_name", name.lowercase())
+                    editor.putString("registered_otp", otp)
+                    editor.apply()
+                    channelName = name.lowercase() + otp
+                    val serverById = api.getServerById(Server_ID)
+                    serverById.ifPresent { server ->
+                        val createTextChannelBuilder = server.createTextChannelBuilder()
+                        createTextChannelBuilder.setName(channelName)
+                        val channelCategoryById =
+                            server.getChannelCategoryById(CONSTANTS.Category_ID)
+                        channelCategoryById.ifPresent { category ->
+                            createTextChannelBuilder.setCategory(category)
+                            val channelData = createTextChannelBuilder.create()
+                            editor.putString("Channel_id", channelData.get().id.toString())
+                            editor.apply()
+                            myChannelId = channelData.get().id.toString()
+                            Log.d("channel", channelData.get().id.toString() + "added")
+                            val channel =
+                                api.getTextChannelById(myChannelId)
+                            channel.ifPresent { textChannel ->
+                                textChannel.sendMessage(otp)
+
+                                val chann = api.getTextChannelById(API.myChannelId)
+                                chann.ifPresent{
                                     val chann = api.getTextChannelById(API.myChannelId)
-                                    chann.ifPresent{
+                                    chann.ifPresent{message->
                                         val messages = it.getMessages(2).get()
                                         messages.forEach { message ->
                                             if(message.content.contains("Connected",true)){
@@ -95,7 +92,7 @@ class RegisterName : Fragment() {
                                                 message.delete()
                                             }
                                         }
-                                        lifecycleScope.launch {
+                                        lifecycleScope.launch{
                                             delay(2000)
                                             if(verified){
                                                 startActivity(Intent(requireContext(), HomeActivity::class.java))
@@ -109,9 +106,6 @@ class RegisterName : Fragment() {
                             }
                         }
                     }
-
-
-
                 } else {
                     if (name.isEmpty()) {
                         binding.textInputLayout.error = "Please enter a valid name"
@@ -123,14 +117,17 @@ class RegisterName : Fragment() {
             } else {
                 if (name.isNotEmpty()) {
                     binding.textInputLayout.isErrorEnabled = false
-                    Toast.makeText(requireContext(), "Hello $name, please enter the otp from the desktop app....", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Hello $name, please enter the otp from the desktop app....",
+                        Toast.LENGTH_LONG
+                    ).show()
                     binding.textInputLayoutotp.visibility = View.VISIBLE
                 } else {
                     binding.textInputLayout.error = "Please enter a valid name"
                 }
             }
         }
-
         return binding.root
     }
 
