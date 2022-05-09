@@ -80,10 +80,8 @@ class RegisterName : Fragment() {
                                 textChannel.sendMessage(otp)
 
                                 val chann = api.getTextChannelById(API.myChannelId)
-                                chann.ifPresent{
-                                    val chann = api.getTextChannelById(API.myChannelId)
                                     chann.ifPresent{message->
-                                        val messages = it.getMessages(2).get()
+                                        val messages = message.getMessages(2).get()
                                         messages.forEach { message ->
                                             if(message.content.contains("Connected",true)){
                                                 Toast.makeText(requireContext(),"Verification Done",Toast.LENGTH_SHORT).show()
@@ -98,11 +96,10 @@ class RegisterName : Fragment() {
                                                 startActivity(Intent(requireContext(), HomeActivity::class.java))
                                                 requireActivity().finish()
                                             }else{
-                                                findNavController().navigate(R.id.action_register_name2_to_homeFragment)
+                                                findNavController().navigate(R.id.action_register_name_to_homeFragment)
                                             }
                                         }
                                     }
-                                }
                             }
                         }
                     }

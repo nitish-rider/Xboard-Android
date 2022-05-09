@@ -51,7 +51,9 @@ class MessageAdapter(
             }
         }
         holder.itemView.findViewById<TextView>(R.id.text).setOnClickListener {
-            val myClip = ClipData.newPlainText("text",messageList[position].first.substring(18))
+            val myClip = ClipData.newPlainText("text",if(messageList[position].first == "Connected")
+                messageList[position].first
+                else messageList[position].first.substring(18))
             myClipBoard.setPrimaryClip(myClip)
             Toast.makeText(context,"Text Copied",Toast.LENGTH_SHORT).show()
         }

@@ -21,7 +21,7 @@ class HomeActivity : AppCompatActivity() {
 
 
     private lateinit var binding:ActivityHomeBinding
-    private val mainViewModel = MainViewModel()
+    private lateinit var mainViewModel : MainViewModel
     private lateinit var mScaleGestureDetector: ScaleGestureDetector
     private var mScaleFactor = 1.0f
 
@@ -32,6 +32,7 @@ class HomeActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
 
+        mainViewModel = MainViewModel(this)
 
             binding.messageRv.layoutManager = LinearLayoutManager(this)
             mainViewModel.getMessages(myChannelId)

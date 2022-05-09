@@ -1,5 +1,8 @@
 package com.xboard.xboardandroid.viewmodel
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,8 +10,10 @@ import androidx.lifecycle.viewModelScope
 import com.xboard.xboardandroid.utils.API
 import kotlinx.coroutines.launch
 
-class MainViewModel:ViewModel() {
+class MainViewModel(context: Context):ViewModel() {
     var myMessages : MutableLiveData<List<Pair<String,String>>> = MutableLiveData()
+    private val myClipBoard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
 
     fun getMessages(channelId : String){
         viewModelScope.launch {
@@ -23,8 +28,10 @@ class MainViewModel:ViewModel() {
                         }
                         else if(mess.content.startsWith("#Windows",true)){
                             var text = mess.content.substring(20).trim()
+                            val myClip = ClipData.newPlainText("text",text)
                             text = "Desktop->Android: $text"
                             msg.add(Pair(text,""))
+                            myClipBoard.setPrimaryClip(myClip)
                         }
                         else if(mess.content.startsWith("#Android",true)){
                             var text = mess.content.substring(20).trim()
