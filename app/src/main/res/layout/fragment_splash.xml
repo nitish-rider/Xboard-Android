@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/text"
-        android:src="@drawable/screenshot"/>
+        android:src="@drawable/logo"/>
 
 
 
