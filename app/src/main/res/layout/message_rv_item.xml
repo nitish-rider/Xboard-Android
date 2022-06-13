@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#3A3838">
 
     <TextView
         android:id="@+id/text"
@@ -12,7 +13,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:maxLines="100"
-        android:textColor="@color/black"
+        android:textColor="@color/bg_yellow"
         android:textSize="18sp" />
 
     <ImageView

@@ -23,20 +23,22 @@ class MainViewModel(context: Context):ViewModel() {
                 val msg : ArrayList<Pair<String,String>> = ArrayList()
                 messages.forEach {mess->
                     if(mess.content.isNotEmpty()){
-                        if(mess.content.equals("Connected")){
-                            msg.add(Pair(mess.content,""))
-                        }
-                        else if(mess.content.startsWith("#Windows",true)){
-                            var text = mess.content.substring(20).trim()
-                            val myClip = ClipData.newPlainText("text",text)
-                            text = "Desktop->Android: $text"
-                            msg.add(Pair(text,""))
-                            myClipBoard.setPrimaryClip(myClip)
-                        }
-                        else if(mess.content.startsWith("#Android",true)){
-                            var text = mess.content.substring(20).trim()
-                            text = "Android->Desktop: $text"
-                            msg.add(Pair(text,""))
+                        when {
+                            mess.content.equals("Connected") -> {
+                                msg.add(Pair(mess.content,""))
+                            }
+                            mess.content.startsWith("#Windows",true) -> {
+                                var text = mess.content.substring(20).trim()
+                                val myClip = ClipData.newPlainText("text",text)
+                                text = "Desktop->Android: $text"
+                                msg.add(Pair(text,""))
+                                myClipBoard.setPrimaryClip(myClip)
+                            }
+                            mess.content.startsWith("#Android",true) -> {
+                                var text = mess.content.substring(20).trim()
+                                text = "Android->Desktop: $text"
+                                msg.add(Pair(text,""))
+                            }
                         }
 
                     }
